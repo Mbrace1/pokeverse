@@ -1,22 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
 
 function PokemonCard({ url, name }) {
   const [data, setData] = useState(null);
 
-  async function fetchApi() {
-    // let res = await fetch(url)
-    // res = await res.json()
-    // setData(res)
-    // currently rendering more than 150
-    console.log("response")
-  }
+  useEffect(() => {
+    async function fetchApi() {
+      let res = await fetch(url)
+      res = await res.json()
+      setData(res)
+      console.log("response")
+    }
+    fetchApi()
+  }, [])
 
-  fetchApi()
 
   return (
-    data &&
-    <Card style={{ width: '18rem' }}>
+    <Col>
+{    data &&
+    <Card style={{ margin: '1em' }}>
       <Card.Img variant="top" src={data.sprites.front_default} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
@@ -24,7 +27,8 @@ function PokemonCard({ url, name }) {
           {data.abilities.map(i => <li>{i.ability.name}</li>)}
         </Card.Text>
       </Card.Body>
-    </Card>
+    </Card>}
+    </Col>
   );
 }
 
